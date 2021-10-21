@@ -3,6 +3,20 @@ manage secrets in bash - https://github.com/shadowbq/matrix.dot.files (extracted
 
 We should never store unecrypted secrets on our machines. ***Storing un-encrypted Secret ENVs in a file is bad idea®.***
 
+## Table of Contents
+
+  * [Methodology](#methodology)
+  * [Usage](#usage)
+  * [Implementation](#implementation)
+  * [Setup](#setup)
+    + [Install GPG and Init](#install-gpg-and-init)
+    + [Set your pin entry method (required)](#set-your-pin-entry-method--required-)
+  * [New Secrets - Creation Securely using RAMDisks](#new-secrets---creation-securely-using-ramdisks)
+  * [Working with your GPG Keys in more than one location.](#working-with-your-gpg-keys-in-more-than-one-location)
+    + [Register an Existing Key](#register-an-existing-key)
+      - [Trust the newly Imported key](#trust-the-newly-imported-key)
+  * [Loading of Secrets - Manual Implementation](#loading-of-secrets---manual-implementation)
+
 ## Methodology
 
 Store secrets as an RSA 2048 encrypted Base64 bash ENV file that gets decrypted in memory via GPG and sourced as needed into Bash.
