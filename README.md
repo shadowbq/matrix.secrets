@@ -128,10 +128,10 @@ else
 
 **Note:** If you don't have a key yet see the [GnuPG](#gnupg) primer.
 
-Given that you have a GPG KEY `0123456789ABCDEF0123456789ABCDEF` listed as `ultimate`.
+Given that you have a SECRET GPG KEY `0123456789ABCDEF0123456789ABCDEF` listed as `ultimate`.
 
 ```shell
-$> gpg --list-keys
+$> gpg --list-secret-keys
 /Users/scottmacgregor/.gnupg/pubring.kbx
 ----------------------------------------
 pub   rsa2048 2019-12-28 [SC] [expires: 2021-12-27]
