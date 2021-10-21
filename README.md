@@ -54,10 +54,10 @@ Install the GPG client
 * NOTE: that on MacOS the command isn't gpg2 but rather just gpg. 
 
 ```shell
-$ (macosx)> brew install gpg
-$ (deb/ubuntu)> apt install gnupg
-$ (linux)> yum install gnupg
-$ (bsd) > gpg
+$(macOS)>  brew install gpg
+$(deb/ubuntu)> apt install gnupg
+$(linux/rhel)> yum install gnupg
+$(bsd) > gpg
 ```
 
 Init GPG
@@ -73,9 +73,9 @@ gpg: /Users/smacgregor/.gnupg/trustdb.gpg: trustdb created
 
 You are required to have a pin entry application *that works(looking at you mac)* 
 
-* `brew install pinentry-mac` 
-* `apt install pinentry-tty`
-* `yum install pinentry-tty`
+* `$(macOS)>  brew install pinentry-mac` 
+* `$(deb/ubuntu)> apt install pinentry-tty`
+* `$(linux/rhel)> yum install pinentry-tty`
 
 * [SO - Install Help](https://superuser.com/questions/520980/how-to-force-gpg-to-use-console-mode-pinentry-to-prompt-for-passwords)
 
@@ -96,14 +96,14 @@ echo "pinentry-program /usr/bin/pinentry-tty" >> ~/.gnupg/gpg-agent.conf
 For *debian/ubuntu* you *MUST* update the alternatives
 
 ```shell
-sudo update-alternatives --config pinentry
+$(deb/ubuntu)> sudo update-alternatives --install /usr/bin/pinentry pinentry /usr/bin/pinentry-tty 200
 ```
 
 For *macos/OSX* you can *ALTERNATIVELY* use a GUI/popup which also works with `keychain`
 
 ```shell
-brew install pinentry-mac
-echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+$(macOS)> brew install pinentry-mac
+$(macOS)> echo "pinentry-program /usr/local/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
 ```
 
 Reload the GPG Agent (or kill it to force a restart)
@@ -150,10 +150,11 @@ Option 2) 'Good Enough' new ramDisk + immediate destruction
 
 ```shell
 # Make your Linux secrets securely 
-mkdir -p $HOME/tmpfs
-mount -t tmpfs -o size=512m ramfs $HOME/tmpfs
+$(linux)> mkdir -p $HOME/tmpfs
+$(linux)> mount -t tmpfs -o size=512m ramfs $HOME/tmpfs
+
 # Make your MacOS secrets securely (macos_ramdisk is in .matrix/Darwin/bin)
-macos_ramdisk mount
+$(macOS)> macos_ramdisk mount
 ```
 
 Example *UNENCRYPTED* `.bash_secrets` file
