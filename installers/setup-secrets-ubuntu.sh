@@ -2,7 +2,7 @@
 
 sudo apt install gnupg pinentry-tty -y
 gpg --list-keys
-sudo update-alternatives --config pinentry
+sudo update-alternatives --install /usr/bin/pinentry pinentry /usr/bin/pinentry-tty 200
 gpg-connect-agent reloadagent /bye
 curl -O -J -F "https://raw.githubusercontent.com/shadowbq/matrix.secrets/main/bash/.matrix.secrets" > ~/.matrix.secrets
 echo 'source ~/.matrix.secrets' >> ~/.bashrc
