@@ -10,10 +10,13 @@ We should never store unecrypted secrets on our machines. ***Storing un-encrypte
   * [Implementation](#implementation)
   * [Setup](#setup)
     + [Install GPG and Init](#install-gpg-and-init)
-    + [Set your pin entry method (required)](#set-your-pin-entry-method--required-)
+    + [Set your pin entry method](#set-your-pin-entry-method)
   * [New Secrets - Creation Securely using RAMDisks](#new-secrets---creation-securely-using-ramdisks)
-  * [Working with your GPG Keys in more than one location.](#working-with-your-gpg-keys-in-more-than-one-location)
-    + [Register an Existing Key](#register-an-existing-key)
+  * [GnuPG](#gnupg)
+    + [Creating a new GPG Key](#creating-a-new-gpg-key)
+    + [Working with Existing GPG Keys in more than one location.](#working-with-existing-gpg-keys-in-more-than-one-location)
+      - [Extract private key and import on different machine](#extract-private-key-and-import-on-different-machine)
+      - [Register an Existing Key](#register-an-existing-key)
       - [Trust the newly Imported key](#trust-the-newly-imported-key)
   * [Loading of Secrets - Manual Implementation](#loading-of-secrets---manual-implementation)
 
@@ -66,15 +69,15 @@ gpg: keybox '/Users/smacgregor/.gnupg/pubring.kbx' created
 gpg: /Users/smacgregor/.gnupg/trustdb.gpg: trustdb created
 ```
 
-### Set your pin entry method (required)
+### Set your pin entry method
 
-You will need a pin entry application *that works(looking at you mac)*
+You are required to have a pin entry application *that works(looking at you mac)* 
 
 * `brew install pinentry-mac` 
 * `apt install pinentry-tty`
 * `yum install pinentry-tty`
 
-* [Install Help](https://superuser.com/questions/520980/how-to-force-gpg-to-use-console-mode-pinentry-to-prompt-for-passwords)
+* [SO - Install Help](https://superuser.com/questions/520980/how-to-force-gpg-to-use-console-mode-pinentry-to-prompt-for-passwords)
 
 ```shell
 ls -la /usr/*/bin/pinentry*
@@ -123,7 +126,7 @@ else
 
 ## New Secrets - Creation Securely using RAMDisks
 
-Given that you have a GPG KEY `0123456789ABCDEF0123456789ABCDEF`:
+Given that you have a GPG KEY `0123456789ABCDEF0123456789ABCDEF` listed as `ultimate`:
 
 ```shell
 $> gpg --list-keys
@@ -167,20 +170,81 @@ umount $HOME/tmpfs
 macos_ramdisk umount $HOME/tmpfs
 ```
 
+## GnuPG 
 
+You can create new keys, or use existing keys across multiple machines.
 
-## Working with your GPG Keys in more than one location.
+### Creating a new GPG Key
 
-GPG: Extract private key and import on different machine
-Identify your private key by running `gpg --list-secret-keys`. 
-You need the ID of your private key (second column)
+`gpg --full-generate-key`
 
-Run this command to export your key: `gpg --export-secret-keys $ID > ~/.ssh/my-gpg-private-key.asc`.
-Copy the key to the other machine ( scp is your friend)
+1) At the prompt, specify the kind of key you want, or press Enter to accept the default.
+1) At the prompt, specify the key size you want, or press Enter to accept the default. Your key must be at least 4096 bits.
+1) Enter the length of time the key should be valid. Press Enter to specify the default selection, indicating that the key doesn't expire.
+1) Verify that your selections are correct.
+1) Enter your user ID information.
+2) Type a secure passphrase.
 
-`scp ~/.ssh/my-gpg-private-key.asc target:~/.ssh/.`
+```txt
+gpg (GnuPG) 2.3.2; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 
-### Register an Existing Key
+Please select what kind of key you want:
+   (1) RSA and RSA
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (9) ECC (sign and encrypt) *default*
+  (10) ECC (sign only)
+  (14) Existing key from card
+Your selection? <default>
+Please select which elliptic curve you want:
+   (1) Curve 25519 *default*
+   (4) NIST P-384
+   (6) Brainpool P-256
+Your selection? <default>
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0)
+Key does not expire at all
+Is this correct? (y/N) y
+```
+
+Validate the Key is Ultimate
+
+```
+$> gpg --list-secret-keys --keyid-format=long
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+/Users/shadowbq/.gnupg/pubring.kbx
+------------------------------------
+sec   ed25519/0123456789ABCDEF 2021-10-21 [SC]
+      0123456789ABCDEF0123456789ABCDEF
+uid                 [ultimate] scott macgregor <shadowbq@gmail.com>
+ssb   cv25519/0123456789ABCDEF 2021-10-21 [E]
+```
+
+### Working with Existing GPG Keys in more than one location.
+
+#### Extract private key and import on different machine
+
+Identify your private key by running `gpg --list-secret-keys --keyid-format=LONG`.  
+You need the ID of your private key (second column)  
+
+`0123456789ABCDEF`
+
+Run this command to export your key: `gpg --export-secret-keys $ID > ~/.ssh/my-gpg-private-key.asc`.  
+Copy the key to the other machine ( scp is your friend)  
+
+`scp ~/.ssh/my-gpg-private-key.asc target:~/.ssh/.`. 
+
+#### Register an Existing Key
 
 To import the key on the *target-server*, run `gpg --import ~/.ssh/my-gpg-private-key.asc`.
 
@@ -188,7 +252,8 @@ To import the key on the *target-server*, run `gpg --import ~/.ssh/my-gpg-privat
 
 Ensure the keys are correct by observing the ID with LONG format:
 
-`gpg --keyid-format 0xLONG -k`
+`gpg --list-secret-keys --keyid-format=LONG`
+`gpg --list-keys --keyid-format 0xLONG`
 
 Everything showed up as normal **except** for the uid which now reads `[unknown]`:
 
@@ -219,7 +284,7 @@ gpg> save
 
 Validate it is now `ultimate` trust.
 
-`gpg --keyid-format 0xLONG -k`
+`gpg --list-keys --keyid-format 0xLONG`
 
 ```shell
 uid [ ultimate ] User < user@useremail.com >
