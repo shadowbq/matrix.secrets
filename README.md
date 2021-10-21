@@ -124,6 +124,14 @@ else
 
 `export GPG_TTY=$(tty)` to my `~/.bash_local`
 
+Download and include `.matrix.secrets` in your `.bashrc`
+
+```
+curl -O -J -L "https://raw.githubusercontent.com/shadowbq/matrix.secrets/main/bash/.matrix.secrets" > ~/.matrix.secrets
+echo 'Load in this session: "source ~/.matrix.secrets"'
+echo 'source ~/.matrix.secrets' >> ~/.bashrc
+```
+
 ## New Secrets - Creation Securely using RAMDisks
 
 **Note:** If you don't have a key yet see the [GnuPG](#gnupg) primer.
