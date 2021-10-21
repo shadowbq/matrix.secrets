@@ -138,7 +138,15 @@ uid           [ultimate] scott macgregor <shadowbq@gmail.com>
 sub   rsa2048 2019-12-28 [E] [expires: 2021-12-27]
 ```
 
+
 Encrypt a bash script with contents: `export SECRET_TOKEN=abcdefg12345678ZYXWV` securely into `.bash_encrypted`
+
+Option 1) 'Ensured Security' 
+
+* https://unix.stackexchange.com/a/271870/104660)
+* `tmpfs` + `luks\encryption` + `ext4` + immediate destruction
+
+Option 2) 'Good Enough' new ramDisk + immediate destruction
 
 ```shell
 # Make your Linux secrets securely 
@@ -148,7 +156,7 @@ mount -t tmpfs -o size=512m ramfs $HOME/tmpfs
 macos_ramdisk mount
 ```
 
-Example UNENCRYPTED `.bash_secrets` file
+Example *UNENCRYPTED* `.bash_secrets` file
 
 ```shell
 export SECRET_TOKEN=abcdefg12345678ZYXWV
@@ -164,10 +172,11 @@ vi $HOME/tmpfs/.bash_secrets
 cat $HOME/tmpfs/.bash_secrets | gpg --encrypt -r 0123456789ABCDEF0123456789ABCDEF --armor |base64 > ~/.bash_encrypted
 ```
 
-```shell
-# Wipe secrets ( Nuke: https://unix.stackexchange.com/a/271870/104660)
-umount $HOME/tmpfs
-macos_ramdisk umount $HOME/tmpfs
+
+'Good enough' Destruction of Secrets
+```
+$(linux)> sudo umount $HOME/tmpfs
+$(macOS)> sudo macos_ramdisk umount $HOME/tmpfs
 ```
 
 ## GnuPG 
