@@ -170,9 +170,19 @@ Create the `.bash_secrets` in the tmpfs
 ```shell
 vi $HOME/tmpfs/.bash_secrets
 [..Write.Secrets.here..]
+```
+
+Encrypt it with the keyid `0123456789ABCDEF0123456789ABCDEF`
+
+```shell
 cat $HOME/tmpfs/.bash_secrets | gpg --encrypt -r 0123456789ABCDEF0123456789ABCDEF --armor |base64 > ~/.bash_encrypted
 ```
 
+Test the Encrypted Text 
+
+```
+cat ~/.bash_encrypted |base64 -d |gpg --decrypt 2`
+```
 
 'Good enough' Destruction of Secrets
 ```
