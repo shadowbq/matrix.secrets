@@ -234,19 +234,41 @@ ssb   cv25519/0123456789ABCDEF 2021-10-21 [E]
 
 #### Extract private key and import on different machine
 
-Identify your private key by running `gpg --list-secret-keys --keyid-format=LONG`.  
+Identify your private key by running 
+
+`gpg --list-secret-keys --keyid-format=LONG`.  
+
 You need the ID of your private key (second column)  
 
 `0123456789ABCDEF`
 
-Run this command to export your key: `gpg --export-secret-keys $ID > ~/.ssh/my-gpg-private-key.asc`.  
+Run this command to export your key: 
+
+`gpg --export-secret-keys $ID > ~/.ssh/my-gpg-private-key.asc`.  
+
 Copy the key to the other machine ( scp is your friend)  
 
 `scp ~/.ssh/my-gpg-private-key.asc target:~/.ssh/.`. 
 
 #### Register an Existing Key
 
-To import the key on the *target-server*, run `gpg --import ~/.ssh/my-gpg-private-key.asc`.
+To import the key on the *target-server*, run 
+
+```
+$> gpg --import ~/my-gpg-private-key.asc
+
+Please enter the passphrase to import the OpenPGP secret key:
+"scott macgregor <shadowbq@gmail.com>"
+256-bit EDDSA key, ID 0123456789ABCDEF,
+created 2021-10-21.
+
+Passphrase:
+gpg: key 0123456789ABCDEF: secret key imported
+gpg: Total number processed: 1
+gpg:              unchanged: 1
+gpg:       secret keys read: 1
+gpg:   secret keys imported: 1
+```
 
 #### Trust the newly Imported key
 
