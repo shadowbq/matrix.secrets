@@ -126,7 +126,9 @@ else
 
 ## New Secrets - Creation Securely using RAMDisks
 
-Given that you have a GPG KEY `0123456789ABCDEF0123456789ABCDEF` listed as `ultimate`:
+**Note:** If you don't have a key yet see the [GnuPG](#gnupg) primer.
+
+Given that you have a GPG KEY `0123456789ABCDEF0123456789ABCDEF` listed as `ultimate`.
 
 ```shell
 $> gpg --list-keys
