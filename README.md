@@ -52,7 +52,8 @@ Install the GPG client
 
 ```shell
 $ (macosx)> brew install gpg
-$ (linux)> apt/yum install gpg|gpg2
+$ (deb/ubuntu)> apt install gnupg
+$ (linux)> yum install gnupg
 $ (bsd) > gpg
 ```
 
