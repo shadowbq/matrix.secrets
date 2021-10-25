@@ -11,6 +11,8 @@ export GPG_TTY=$(tty)
 echo 'export GPG_TTY=$(tty)' >> ~/.bashrc
 echo '# Run these commands to Load an Existing Foreign GPG Key'
 echo 'export keypath="./my-gpg-private-key.asc"'
+echo 'export gpg --import $keypath'
 echo 'export fingerprint=$(gpg --with-colons --import-options show-only --import ./my-gpg-private-key.asc | grep sec | awk -F '"'"'[:;]'"'"' '"'"'{print $5}'"'"')'
 echo 'echo -e "5\ny\n" | gpg --command-fd 0 --edit-key $fingerprint trust quit'
+echo 'gpg --list-secret-keys'
 
