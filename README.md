@@ -79,12 +79,23 @@ You are required to have a pin entry application *that works(looking at you mac)
 
 * [SO - Install Help](https://superuser.com/questions/520980/how-to-force-gpg-to-use-console-mode-pinentry-to-prompt-for-passwords)
 
+Under mac homebrew
+
 ```shell
-ls -la /usr/*/bin/pinentry*
+ls -la /usr/*bin/pinentry*
 lrwxr-xr-x  1 smacgregor  admin  39 Nov  5 09:15 /usr/local/bin/pinentry -> ../Cellar/pinentry/1.1.0_1/bin/pinentry
 lrwxr-xr-x  1 smacgregor  admin  46 Nov  5 09:15 /usr/local/bin/pinentry-curses -> ../Cellar/pinentry/1.1.0_1/bin/pinentry-curses
 lrwxr-xr-x  1 smacgregor  admin  45 Nov  5 09:31 /usr/local/bin/pinentry-mac -> ../Cellar/pinentry-mac/0.9.4/bin/pinentry-mac
 lrwxr-xr-x  1 smacgregor  admin  43 Nov  5 09:15 /usr/local/bin/pinentry-tty -> ../Cellar/pinentry/1.1.0_1/bin/pinentry-tty
+```
+
+Under ubuntu/debian
+
+```shell
+ls -la /usr/*bin/pinentry*
+lrwxrwxrwx 1 root root    26 Sep 12 19:34 /usr/bin/pinentry -> /etc/alternatives/pinentry
+-rwxr-xr-x 1 root root 68240 Mar 22  2020 /usr/bin/pinentry-curses
+-rwxr-xr-x 1 root root 60048 Mar 22  2020 /usr/bin/pinentry-tty
 ```
 
 A pure cli experience on servers or terminal
