@@ -124,7 +124,7 @@ gpg-connect-agent reloadagent /bye
 # `killall gpg-agent` if that not working correctly
 ```
 
-Note (This was seen as require at least on **macos**):  
+Note (This was seen as required at least on **macos**):  
 
 ```shell
 env |grep GPG
@@ -133,7 +133,9 @@ GPG_TTY=/dev/ttys001
 
 else  
 
-`export GPG_TTY=$(tty)` to my `~/.bash_local`
+```
+echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
+```
 
 Download and include `.matrix.secrets` in your `.bashrc`
 
