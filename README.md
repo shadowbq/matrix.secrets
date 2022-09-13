@@ -12,13 +12,15 @@ We should never store unecrypted secrets on our machines. ***Storing un-encrypte
     + [Install GPG and Init](#install-gpg-and-init)
     + [Set your pin entry method](#set-your-pin-entry-method)
   * [New Secrets - Creation Securely using RAMDisks](#new-secrets---creation-securely-using-ramdisks)
-  * [GnuPG](#gnupg)
-    + [Creating a new GPG Key](#creating-a-new-gpg-key)
-    + [Working with Existing GPG Keys in more than one location.](#working-with-existing-gpg-keys-in-more-than-one-location)
-      - [Extract private key and import on different machine](#extract-private-key-and-import-on-different-machine)
-      - [Register an Existing Key](#register-an-existing-key)
-      - [Trust the newly Imported key](#trust-the-newly-imported-key)
-  * [Loading of Secrets - Manual Implementation](#loading-of-secrets---manual-implementation)
+  * [Appendix](#appendix)
+    + [Loading of Secrets - Manual Implementation](#loading-of-secrets---manual-implementation)
+    + [GnuPG](#gnupg)
+      - [Creating a new GPG Key](#creating-a-new-gpg-key)
+      - [Working with Existing GPG Keys in more than one location.](#working-with-existing-gpg-keys-in-more-than-one-location)
+        - [Extract private key and import on different machine](#extract-private-key-and-import-on-different-machine)
+        - [Register an Existing Key](#register-an-existing-key)
+        - [Trust the newly Imported key](#trust-the-newly-imported-key)
+  
 
 ## Methodology
 
@@ -210,13 +212,23 @@ cat ~/.bash_encrypted |base64 -d |gpg --decrypt
 'Good enough' Destruction of Secrets
 ```
 $(linux)> sudo umount $HOME/tmpfs
-
+-or-
 $(macOS)> sudo macos_ramdisk umount $HOME/tmpfs
+```
+
+# Appendix 
+
+## Loading of Secrets - Manual Implementation
+
+As an alternative to `secrets_load` alias,  you can manually decrypt and load into current `tty` ENV.
+
+``` shell
+$> eval $(cat ~/.bash_encrypted |base64 -d |gpg --decrypt 2> /dev/null)
 ```
 
 ## GnuPG 
 
-You can create new keys, or use existing keys across multiple machines.
+This section will assist your in creating new keys, or use existing keys GPG across multiple machines.
 
 ### Creating a new GPG Key
 
@@ -356,10 +368,4 @@ Validate it is now `ultimate` trust.
 uid [ ultimate ] User < user@useremail.com >
 ```
 
-## Loading of Secrets - Manual Implementation
 
-As an alternative to `secrets_load`,  you can manually decrypt and load into current `tty` ENV.
-
-``` shell
-$> eval $(cat ~/.bash_encrypted |base64 -d |gpg --decrypt 2> /dev/null)
-```
