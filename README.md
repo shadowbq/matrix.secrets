@@ -204,7 +204,7 @@ cat $HOME/tmpfs/.bash_secrets | gpg --encrypt -r 0123456789ABCDEF0123456789ABCDE
 Test the Encrypted Text 
 
 ```
-cat ~/.bash_encrypted |base64 -d |gpg --decrypt 2`
+cat ~/.bash_encrypted |base64 -d |gpg --decrypt
 ```
 
 'Good enough' Destruction of Secrets
