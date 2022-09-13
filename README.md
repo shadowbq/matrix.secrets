@@ -174,10 +174,10 @@ Option 2) 'Good Enough' new ramDisk + immediate destruction
 ```shell
 # Make your Linux secrets securely 
 $(linux)> mkdir -p $HOME/tmpfs
-$(linux)> mount -t tmpfs -o size=512m ramfs $HOME/tmpfs
+$(linux)> sudo mount -t tmpfs -o size=128m ramfs $HOME/tmpfs
 
 # Make your MacOS secrets securely (macos_ramdisk is in .matrix/Darwin/bin)
-$(macOS)> macos_ramdisk mount
+$(macOS)> sudo macos_ramdisk mount
 ```
 
 Example *UNENCRYPTED* `.bash_secrets` file
@@ -210,6 +210,7 @@ cat ~/.bash_encrypted |base64 -d |gpg --decrypt
 'Good enough' Destruction of Secrets
 ```
 $(linux)> sudo umount $HOME/tmpfs
+
 $(macOS)> sudo macos_ramdisk umount $HOME/tmpfs
 ```
 
