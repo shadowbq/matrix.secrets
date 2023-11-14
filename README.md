@@ -294,13 +294,17 @@ Identify your private key by running
 
 `gpg --list-secret-keys --keyid-format=LONG`.  
 
-You need the ID of your private key (second column)  
+You need the ID of your private key (second row under `sec`)  
 
-`0123456789ABCDEF`
+`0123456789ABCDEF0123456789ABCDEF`
 
-Run this command to export your key: 
+Export your `private key` (bin format)
 
 `gpg --export-secret-keys $ID > ~/.ssh/my-gpg-private-key.asc`.  
+
+Export your `public key` (human readable)
+
+`gpg --armor --export $ID > ~/.ssh/my-gpg-key.pub`
 
 Copy the key to the other machine ( scp is your friend)  
 
